@@ -6,234 +6,232 @@ homeFoulCount = 0
 guestFoulCount = 0
 periodPoint = 0
 
-function checkHighScore() {
-    if (homePoints > guestPoints) {
-        guestScore.style.border = "none";
-        homeScore.style.border = "5px dotted #CEA704";
-    } else if (guestPoints > homePoints) {
-        homeScore.style.border = "none";
-        guestScore.style.border = "5px dotted #CEA704";
-    } else {
-        homeScore.style.border = "none";
-        guestScore.style.border = "none";
-    }
+function checkHighScore () {
+  if (homePoints > guestPoints) {
+    guestScore.style.border = 'none'
+    homeScore.style.border = '5px dotted #CEA704'
+  } else if (guestPoints > homePoints) {
+    homeScore.style.border = 'none'
+    guestScore.style.border = '5px dotted #CEA704'
+  } else {
+    homeScore.style.border = 'none'
+    guestScore.style.border = 'none'
+  }
 }
 
-function add1FoulHome() {
-    homeFoulCount += 1
-    homeFouls.textContent = homeFoulCount
+function add1FoulHome () {
+  homeFoulCount += 1
+  homeFouls.textContent = homeFoulCount
 }
-function add1FoulGuest() {
-    guestFoulCount += 1
-    guestFouls.textContent = guestFoulCount
-}
-
-function add1Home() {
-    homePoints += 1
-    homeScore.textContent = homePoints
-    checkHighScore()
-}
-function add2Home() {
-    homePoints += 2
-    homeScore.textContent = homePoints
-    checkHighScore()
-}
-function add3Home() {
-    homePoints += 3
-    homeScore.textContent = homePoints
-    checkHighScore()
+function add1FoulGuest () {
+  guestFoulCount += 1
+  guestFouls.textContent = guestFoulCount
 }
 
-function add1Guest() {
-    guestPoints += 1
-    guestScore.textContent = guestPoints
-    checkHighScore()
+function add1Home () {
+  homePoints += 1
+  homeScore.textContent = homePoints
+  checkHighScore()
 }
-function add2Guest() {
-    guestPoints += 2
-    guestScore.textContent = guestPoints
-    checkHighScore()
+function add2Home () {
+  homePoints += 2
+  homeScore.textContent = homePoints
+  checkHighScore()
 }
-function add3Guest() {
-    guestPoints += 3
-    guestScore.textContent = guestPoints
-    checkHighScore()
+function add3Home () {
+  homePoints += 3
+  homeScore.textContent = homePoints
+  checkHighScore()
 }
 
+function add1Guest () {
+  guestPoints += 1
+  guestScore.textContent = guestPoints
+  checkHighScore()
+}
+function add2Guest () {
+  guestPoints += 2
+  guestScore.textContent = guestPoints
+  checkHighScore()
+}
+function add3Guest () {
+  guestPoints += 3
+  guestScore.textContent = guestPoints
+  checkHighScore()
+}
 
 // timer
 
-const timesArr = ["minutes", "seconds"];
+const timesArr = ['minutes', 'seconds']
 // input selectors
-const minutes = document.querySelector("#minutes");
-const seconds = document.querySelector("#seconds");
+const minutes = document.querySelector('#minutes')
+const seconds = document.querySelector('#seconds')
 
 // default inputs value
-let def_minutes, def_seconds;
+let def_minutes, def_seconds
 
 // btn selectors
-const btnStart = document.querySelector(".btn_start");
-const btnPause = document.querySelector(".btn_pause_resume");
-const btnStop = document.querySelector(".btn_stop");
-const btnReset = document.querySelector(".btn_reset");
+const btnStart = document.querySelector('.btn_start')
+const btnPause = document.querySelector('.btn_pause_resume')
+const btnStop = document.querySelector('.btn_stop')
+const btnReset = document.querySelector('.btn_reset')
 
-let interval;
-let isPause = false;
-let message = document.querySelector(".message");
-let initialTimeInSeconds;
+let interval
+let isPause = false
+const message = document.querySelector('.message')
+let initialTimeInSeconds
 
-function convertToCurrectValues(totalTimeSeconds) {
-    let newSeconds = totalTimeSeconds % 60;
-    let newMinutes = Math.floor(totalTimeSeconds / 60);
+function convertToCurrectValues (totalTimeSeconds) {
+  const newSeconds = totalTimeSeconds % 60
+  const newMinutes = Math.floor(totalTimeSeconds / 60)
 
-    minutes.value = newMinutes;
-    seconds.value = newSeconds;
+  minutes.value = newMinutes
+  seconds.value = newSeconds
 
-    return true;
+  return true
 }
 
 // get current Total Time by seconds
-function getCurrentTotalTime() {
-    let minutes_value = parseInt(minutes.value);
-    let seconds_value = parseInt(seconds.value);
+function getCurrentTotalTime () {
+  const minutes_value = parseInt(minutes.value)
+  const seconds_value = parseInt(seconds.value)
 
-    let totalTimeSeconds =
-        minutes_value * 60 + seconds_value;
+  const totalTimeSeconds =
+        minutes_value * 60 + seconds_value
 
-    convertToCurrectValues(totalTimeSeconds);
-    initialTimeInSeconds = totalTimeSeconds;
-    return totalTimeSeconds;
+  convertToCurrectValues(totalTimeSeconds)
+  initialTimeInSeconds = totalTimeSeconds
+  return totalTimeSeconds
 }
 
 // start timer
-btnStart.addEventListener("click", (event) => {
-    def_minutes = parseInt(minutes.value);
-    def_seconds = parseInt(seconds.value);
+btnStart.addEventListener('click', (event) => {
+  def_minutes = parseInt(minutes.value)
+  def_seconds = parseInt(seconds.value)
 
-    totalTimeSeconds = getCurrentTotalTime();
-    if (totalTimeSeconds === 0) {
-        message.textContent = "Time is not valid";
-        setTimeout(function () {
-            message.textContent = "";
-        }, 2000);
+  totalTimeSeconds = getCurrentTotalTime()
+  if (totalTimeSeconds === 0) {
+    message.textContent = 'Time is not valid'
+    setTimeout(function () {
+      message.textContent = ''
+    }, 2000)
 
-        return false;
-    }
+    return false
+  }
 
-    event.target.style.display = "none";
-    btnPause.style.display = "block";
-    btnPause.disabled = false;
-    btnStop.style.display = "block";
-    btnReset.style.display = "block";
+  event.target.style.display = 'none'
+  btnPause.style.display = 'block'
+  btnPause.disabled = false
+  btnStop.style.display = 'block'
+  btnReset.style.display = 'block'
 
-    isPause = false;
-    startTimer(totalTimeSeconds);
-});
+  isPause = false
+  startTimer(totalTimeSeconds)
+})
 
 // set countdown timer
-function startTimer(totalTimeSeconds) {
-    interval = setInterval(() => {
-        if (totalTimeSeconds > 0 && !isPause) {
-            totalTimeSeconds--;
-            updateTimeInputs(totalTimeSeconds);
-        } else if (totalTimeSeconds == 0) {
-            clearInterval(interval);
-            // btnPause.disabled = true;
-            document.querySelectorAll(".btn").forEach((btn) => {
-                btn.style.display = "none";
-            });
+function startTimer (totalTimeSeconds) {
+  interval = setInterval(() => {
+    if (totalTimeSeconds > 0 && !isPause) {
+      totalTimeSeconds--
+      updateTimeInputs(totalTimeSeconds)
+    } else if (totalTimeSeconds == 0) {
+      clearInterval(interval)
+      // btnPause.disabled = true;
+      document.querySelectorAll('.btn').forEach((btn) => {
+        btn.style.display = 'none'
+      })
 
-            message.textContent = "Time is over";
-            setTimeout(function () {
-                message.textContent = "";
-            }, 2000);
-            periodPoint += 1
-            periodCount.textContent = periodPoint
-            btnStart.style.display = "block";
-            document.querySelectorAll(".time_input").forEach((input) => {
-                input.disabled = false;
-            });
-        }
-    }, 1000);
+      message.textContent = 'Time is over'
+      setTimeout(function () {
+        message.textContent = ''
+      }, 2000)
+      periodPoint += 1
+      periodCount.textContent = periodPoint
+      btnStart.style.display = 'block'
+      document.querySelectorAll('.time_input').forEach((input) => {
+        input.disabled = false
+      })
+    }
+  }, 1000)
 }
 
 // update inputs value
-function updateTimeInputs(totalTimeSeconds) {
-    let minutes_updated = Math.floor(Math.floor(totalTimeSeconds % 3600) / 60);
-    let seconds_updated = Math.floor(Math.floor(totalTimeSeconds % 3600) % 60);
+function updateTimeInputs (totalTimeSeconds) {
+  const minutes_updated = Math.floor(Math.floor(totalTimeSeconds % 3600) / 60)
+  const seconds_updated = Math.floor(Math.floor(totalTimeSeconds % 3600) % 60)
 
-    timesArr.forEach((element) => {
-        eval(element).disabled = true;
-        eval(element).value = eval(element + "_updated");
-    });
+  timesArr.forEach((element) => {
+    eval(element).disabled = true
+    eval(element).value = eval(element + '_updated')
+  })
 }
 
 // pause event handler
-btnPause.addEventListener("click", (event) => {
-    isPause = !isPause;
+btnPause.addEventListener('click', (event) => {
+  isPause = !isPause
 
-    if (isPause) {
-        event.target.textContent = "Resume";
-    } else {
-        event.target.textContent = "Pause";
-    }
-});
+  if (isPause) {
+    event.target.textContent = 'Resume'
+  } else {
+    event.target.textContent = 'Pause'
+  }
+})
 
 // stop event handler
-btnStop.addEventListener("click", () => {
-    btnStart.style.display = "block";
-    btnPause.style.display = "none";
-    btnPause.disabled = false;
-    btnStop.style.display = "none";
-    btnReset.style.display = "none";
+btnStop.addEventListener('click', () => {
+  btnStart.style.display = 'block'
+  btnPause.style.display = 'none'
+  btnPause.disabled = false
+  btnStop.style.display = 'none'
+  btnReset.style.display = 'none'
 
-    isPause = true;
+  isPause = true
 
-    minutes.value = def_minutes;
-    seconds.value = def_seconds;
+  minutes.value = def_minutes
+  seconds.value = def_seconds
 
-    timesArr.forEach((element) => {
-        eval(element).disabled = false;
-    });
+  timesArr.forEach((element) => {
+    eval(element).disabled = false
+  })
 
-    clearInterval(interval);
-});
+  clearInterval(interval)
+})
 
 // reset event handler
-btnReset.addEventListener("click", () => {
-    clearInterval(interval);
-    btnPause.disabled = false;
+btnReset.addEventListener('click', () => {
+  clearInterval(interval)
+  btnPause.disabled = false
 
-    isPause = false;
+  isPause = false
 
-    minutes.value = def_minutes;
-    seconds.value = def_seconds;
+  minutes.value = def_minutes
+  seconds.value = def_seconds
 
-    totalTimeSeconds = getCurrentTotalTime();
-    startTimer(totalTimeSeconds);
-});
+  totalTimeSeconds = getCurrentTotalTime()
+  startTimer(totalTimeSeconds)
+})
 
-
-let homeScore = document.getElementById("home-score")
-let guestScore = document.getElementById("guest-score")
-let periodCount = document.getElementById("period-count")
-let homeFouls = document.getElementById("home-fouls")
-let guestFouls = document.getElementById("guest-fouls")
+const homeScore = document.getElementById('home-score')
+const guestScore = document.getElementById('guest-score')
+const periodCount = document.getElementById('period-count')
+const homeFouls = document.getElementById('home-fouls')
+const guestFouls = document.getElementById('guest-fouls')
 
 // reset button
 
-function newGame() {
-    homePoints = 0
-    guestPoints = 0
-    homeFoulCount = 0
-    guestFoulCount = 0
-    periodPoint = 0
-    homeScore.textContent = homePoints
-    guestScore.textContent = guestPoints
-    homeFouls.textContent = homeFoulCount
-    guestFouls.textContent = guestFoulCount
-    periodCount.textContent = periodPoint
-    document.getElementById('minutes').value = '12';
-    document.getElementById('seconds').value = '00';
-    checkHighScore()
+function newGame () {
+  homePoints = 0
+  guestPoints = 0
+  homeFoulCount = 0
+  guestFoulCount = 0
+  periodPoint = 0
+  homeScore.textContent = homePoints
+  guestScore.textContent = guestPoints
+  homeFouls.textContent = homeFoulCount
+  guestFouls.textContent = guestFoulCount
+  periodCount.textContent = periodPoint
+  document.getElementById('minutes').value = '12'
+  document.getElementById('seconds').value = '00'
+  checkHighScore()
 }
